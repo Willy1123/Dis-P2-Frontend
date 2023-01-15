@@ -1,4 +1,4 @@
-package com.dis.javalovers.gesionZonasBasicasSalud;
+package com.dis.javalovers.gestionZonasBasicasSalud;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import org.junit.Assert;

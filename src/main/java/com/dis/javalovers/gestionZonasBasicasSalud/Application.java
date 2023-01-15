@@ -1,4 +1,4 @@
-package com.dis.javalovers.gesionZonasBasicasSalud;
+package com.dis.javalovers.gestionZonasBasicasSalud;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
