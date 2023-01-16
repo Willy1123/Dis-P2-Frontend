@@ -1,6 +1,8 @@
 package com.dis.javalovers.gestionZonasBasicasSalud.model;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**

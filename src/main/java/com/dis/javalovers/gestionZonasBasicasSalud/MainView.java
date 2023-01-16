@@ -44,11 +44,14 @@ public class MainView extends Div {
     private final Tab zbsMayores;
     private final VerticalLayout content;
     private final VerticalLayout results;
+    private final HorizontalLayout formulario;
     private final HorizontalLayout botones;
 
     public MainView(@Autowired ZBS_Service service) throws URISyntaxException, IOException, InterruptedException {
 
         botones = new HorizontalLayout();
+
+        formulario = new HorizontalLayout();
 
         results = new VerticalLayout();
 
@@ -56,6 +59,9 @@ public class MainView extends Div {
 
         zbs = new Tab("Centros Básicos de Salud");
         zbsMayores = new Tab("CBS Mayores");
+
+        ContactForm form = new ContactForm();
+        form.setWidth("25em");
 
         ZBSController ZBSController = new ZBSController();
         Grid grid = ZBSController.get_tablaZBS();
@@ -66,7 +72,8 @@ public class MainView extends Div {
                     try {
                         results.removeAll();
                         grid.setItems(service.leeZBS());
-                        results.add(grid);
+                        formulario.add(grid, form);
+                        results.add(formulario);
                     } catch (Exception ex) {
                         System.err.println("Error fatal XD");
                     }
@@ -87,7 +94,8 @@ public class MainView extends Div {
 
         botones.add(botonZBS_Actualizar, botonZBS_New);
 
-        results.add(grid);
+        formulario.add(grid, form);
+        results.add(formulario);
 
         Tabs tabs = new Tabs(zbs, zbsMayores);
         tabs.addSelectedChangeListener(event ->
