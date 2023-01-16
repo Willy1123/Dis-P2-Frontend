@@ -1,17 +1,18 @@
-package com.dis.javalovers.gestionZonasBasicasSalud.controller;
-
+package com.dis.javalovers.gestionZonasBasicasSalud.view;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 
-public class ZBSMayoresController {
-
-    public VerticalLayout centroBasicoSaludMayores() {
+@Route(value = "ZbsMayoresView")
+@PageTitle("Tab 2 | Zonas Básicas Salud Mayores")
+public class ZbsMayoresView extends VerticalLayout {
+    public ZbsMayoresView() {
 
         HorizontalLayout zonasBasicasMayores = new HorizontalLayout();
         VerticalLayout zonasBasicasMayoresContenedor = new VerticalLayout();
@@ -39,7 +40,6 @@ public class ZBSMayoresController {
         // Use custom CSS classes to apply styling. This is defined in shared-styles.css.
         //addClassName("centered-content");
 
-        zonasBasicasMayoresContenedor.add(zonasBasicasMayores, button2);
-        return zonasBasicasMayoresContenedor;
+        add(zonasBasicasMayores, button2);
     }
 }
