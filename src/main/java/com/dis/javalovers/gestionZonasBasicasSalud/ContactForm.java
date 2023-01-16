@@ -31,12 +31,13 @@ public class ContactForm extends FormLayout {
                 tasa_incidencia_acumulada_total,
                 casos_confirmados_totales,
                 casos_confirmados_ultimos_14dias,
-                fecha_informe);
+                fecha_informe,
+                createButtonsLayout());
     }
 
     private HorizontalLayout createButtonsLayout() {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        close.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
         //save.addClickShortcut(Key.ENTER);
         //close.addClickShortcut(Key.ESCAPE);

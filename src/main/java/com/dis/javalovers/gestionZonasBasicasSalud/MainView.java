@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A sample Vaadin view class.
@@ -64,15 +65,17 @@ public class MainView extends Div {
         form.setWidth("25em");
 
         ZBSController ZBSController = new ZBSController();
-        Grid grid = ZBSController.get_tablaZBS();
-        grid.setItems(service.leeZBS());
+        AtomicReference<Grid> grid = new AtomicReference<>(ZBSController.get_tablaZBS());
+        grid.get().setItems(service.leeZBS());
 
         Button botonZBS_Actualizar = new Button("Actualizar",
                 e -> {
                     try {
+                        formulario.removeAll();
                         results.removeAll();
-                        grid.setItems(service.leeZBS());
-                        formulario.add(grid, form);
+                        grid.set(ZBSController.get_tablaZBS());
+                        grid.get().setItems(service.leeZBS());
+                        formulario.add(grid.get(), form);
                         results.add(formulario);
                     } catch (Exception ex) {
                         System.err.println("Error fatal XD");
@@ -94,7 +97,7 @@ public class MainView extends Div {
 
         botones.add(botonZBS_Actualizar, botonZBS_New);
 
-        formulario.add(grid, form);
+        formulario.add(grid.get(), form);
         results.add(formulario);
 
         Tabs tabs = new Tabs(zbs, zbsMayores);
