@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE XML_ZonasBasicasSaludMayores60.xml SYSTEM "DTD_ZonasBasicasSaludMayores60.dtd">
 <root>
     <data>
         <codigo_geometria>001</codigo_geometria>
