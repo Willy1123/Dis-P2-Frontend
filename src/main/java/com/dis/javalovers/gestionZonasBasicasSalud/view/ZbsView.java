@@ -21,12 +21,14 @@ import java.net.URISyntaxException;
 @PageTitle("Tab 1 | Zonas Básicas Salud")
 public class ZbsView extends VerticalLayout {
 
+    //VerticalLayout tab1 = new VerticalLayout();
     Grid<ZonaBasicaSalud> grid = new Grid<>(ZonaBasicaSalud.class, false);
     TextField filtro = new TextField();
     ContactForm form = new ContactForm();
     HorizontalLayout results = new HorizontalLayout();
     @Autowired ZBS_Service service;
     public ZbsView(){
+        removeAll();
         addClassName("zbs-view");
         GridConfig();
         FormConfig();
@@ -35,7 +37,7 @@ public class ZbsView extends VerticalLayout {
     }
 
     private HorizontalLayout getResultado() {
-
+        results.removeAll();
         results.add(grid, form);
         return results;
     }

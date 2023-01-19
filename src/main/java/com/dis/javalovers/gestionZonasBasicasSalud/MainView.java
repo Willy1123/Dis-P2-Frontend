@@ -44,6 +44,7 @@ public class MainView extends Div{
         content.removeAll();
 
         if (tab.equals(zbs)) {
+            zbsView = new ZbsView();
             content.add(zbsView);
         } else if (tab.equals(zbsMayores)) {
             content.add(zbsMayoresView);
