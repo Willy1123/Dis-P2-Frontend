@@ -1,5 +1,6 @@
 package com.dis.javalovers.gestionZonasBasicasSalud;
 
+import com.dis.javalovers.gestionZonasBasicasSalud.service.ZBS_Service;
 import com.dis.javalovers.gestionZonasBasicasSalud.view.ZbsMayoresView;
 import com.dis.javalovers.gestionZonasBasicasSalud.view.ZbsView;
 import com.vaadin.flow.component.Tag;
@@ -10,6 +11,7 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Tag("main-view")
 @Route("")
@@ -24,27 +26,28 @@ public class MainView extends Div{
     private final Tab zbs;
     private final Tab zbsMayores;
     private final VerticalLayout content = new VerticalLayout();
-    ZbsView zbsView = new ZbsView();
+    //ZbsView zbsView = new ZbsView(service);
     ZbsMayoresView zbsMayoresView = new ZbsMayoresView();
 
-    public MainView() {
+    public MainView(@Autowired ZBS_Service service) {
+
 
         zbs = new Tab("Centros Básicos de Salud");
         zbsMayores = new Tab("CBS Mayores");
 
         Tabs tabs = new Tabs(zbs, zbsMayores);
         tabs.addSelectedChangeListener(event ->
-                setContent(event.getSelectedTab())
+                setContent(event.getSelectedTab(), service)
         );
-        setContent(tabs.getSelectedTab());
+        setContent(tabs.getSelectedTab(), service);
         add(tabs, content);
     }
 
-    private void setContent(Tab tab) {
+    private void setContent(Tab tab, ZBS_Service service) {
         content.removeAll();
 
         if (tab.equals(zbs)) {
-            zbsView = new ZbsView();
+            ZbsView zbsView = new ZbsView(service);
             content.add(zbsView);
         } else if (tab.equals(zbsMayores)) {
             content.add(zbsMayoresView);

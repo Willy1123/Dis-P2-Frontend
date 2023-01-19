@@ -12,10 +12,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 @Route(value = "ZbsView")
 @PageTitle("Tab 1 | Zonas Básicas Salud")
@@ -26,8 +22,9 @@ public class ZbsView extends VerticalLayout {
     TextField filtro = new TextField();
     ContactForm form = new ContactForm();
     HorizontalLayout results = new HorizontalLayout();
-    @Autowired ZBS_Service service;
-    public ZbsView(){
+    ZBS_Service servicio;
+    public ZbsView(ZBS_Service service){
+        servicio = service;
         removeAll();
         addClassName("zbs-view");
         GridConfig();
@@ -50,11 +47,12 @@ public class ZbsView extends VerticalLayout {
         Button botonZBS_Actualizar = new Button("Actualizar",
                 e -> {
                     try {
-                        results.removeAll();
-                        grid.setItems(service.leeZBS());
-                        getResultado();
+                        grid.setItems(servicio.leeZBS());
+                        GridConfig();
+                        add(getResultado());
                     } catch (Exception ex) {
                         System.err.println("Error al pulsar actualizar");
+                        System.err.println(ex.getMessage());
                     }
                 });
         botonZBS_Actualizar.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
