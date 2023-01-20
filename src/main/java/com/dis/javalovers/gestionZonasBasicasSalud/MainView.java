@@ -1,5 +1,6 @@
 package com.dis.javalovers.gestionZonasBasicasSalud;
 
+import com.dis.javalovers.gestionZonasBasicasSalud.service.ZBS_Mayores60_Service;
 import com.dis.javalovers.gestionZonasBasicasSalud.service.ZBS_Service;
 import com.dis.javalovers.gestionZonasBasicasSalud.view.ZbsMayoresView;
 import com.dis.javalovers.gestionZonasBasicasSalud.view.ZbsView;
@@ -27,9 +28,9 @@ public class MainView extends Div{
     private final Tab zbsMayores;
     private final VerticalLayout content = new VerticalLayout();
     //ZbsView zbsView = new ZbsView(service);
-    ZbsMayoresView zbsMayoresView = new ZbsMayoresView();
+    //ZbsMayoresView zbsMayoresView = new ZbsMayoresView();
 
-    public MainView(@Autowired ZBS_Service service) {
+    public MainView(@Autowired ZBS_Service service, ZBS_Mayores60_Service service_mayores) {
 
 
         zbs = new Tab("Centros Básicos de Salud");
@@ -37,20 +38,21 @@ public class MainView extends Div{
 
         Tabs tabs = new Tabs(zbs, zbsMayores);
         tabs.addSelectedChangeListener(event ->
-                setContent(event.getSelectedTab(), service)
+                setContent(event.getSelectedTab(), service, service_mayores)
         );
-        setContent(tabs.getSelectedTab(), service);
+        setContent(tabs.getSelectedTab(), service, service_mayores);
         add(tabs, content);
     }
 
-    private void setContent(Tab tab, ZBS_Service service) {
+    private void setContent(Tab tab, ZBS_Service service, ZBS_Mayores60_Service service_mayores) {
         content.removeAll();
 
         if (tab.equals(zbs)) {
             ZbsView zbsView = new ZbsView(service);
             content.add(zbsView);
         } else if (tab.equals(zbsMayores)) {
-            content.add(zbsMayoresView);
+            ZbsMayoresView zbsMayoresView1 = new ZbsMayoresView(service_mayores);
+            content.add(zbsMayoresView1);
         }
     }
 

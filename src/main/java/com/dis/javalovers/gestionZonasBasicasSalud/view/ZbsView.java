@@ -1,6 +1,6 @@
 package com.dis.javalovers.gestionZonasBasicasSalud.view;
 
-import com.dis.javalovers.gestionZonasBasicasSalud.ContactForm;
+import com.dis.javalovers.gestionZonasBasicasSalud.forms.ZBS_Form;
 import com.dis.javalovers.gestionZonasBasicasSalud.model.ZonaBasicaSalud;
 import com.dis.javalovers.gestionZonasBasicasSalud.service.ZBS_Service;
 import com.vaadin.flow.component.button.Button;
@@ -16,11 +16,9 @@ import com.vaadin.flow.router.Route;
 @Route(value = "ZbsView")
 @PageTitle("Tab 1 | Zonas Básicas Salud")
 public class ZbsView extends VerticalLayout {
-
-    //VerticalLayout tab1 = new VerticalLayout();
     Grid<ZonaBasicaSalud> grid = new Grid<>(ZonaBasicaSalud.class, false);
     TextField filtro = new TextField();
-    ContactForm form = new ContactForm();
+    ZBS_Form form = new ZBS_Form();
     HorizontalLayout results = new HorizontalLayout();
     ZBS_Service servicio;
     public ZbsView(ZBS_Service service){
@@ -48,7 +46,6 @@ public class ZbsView extends VerticalLayout {
                 e -> {
                     try {
                         grid.setItems(servicio.leeZBS());
-                        GridConfig();
                         add(getResultado());
                     } catch (Exception ex) {
                         System.err.println("Error al pulsar actualizar");

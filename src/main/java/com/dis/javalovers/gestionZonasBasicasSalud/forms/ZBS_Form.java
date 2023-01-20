@@ -1,18 +1,13 @@
-package com.dis.javalovers.gestionZonasBasicasSalud;
+package com.dis.javalovers.gestionZonasBasicasSalud.forms;
 
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 
-import java.util.List;
-
-public class ContactForm extends FormLayout {
+public class ZBS_Form extends FormLayout {
     TextField zona_basica_salud = new TextField("Zona Básica de Salud");
     TextField tasa_incidencia_acumulada_ultimos_14dias = new TextField("Tasa Incidencia ac (Últimos 14 días)");
     TextField tasa_incidencia_acumulada_total = new TextField("Tasa Incidencia Total Acumulada");
@@ -23,7 +18,7 @@ public class ContactForm extends FormLayout {
     Button save = new Button("Save");
     Button close = new Button("Cancel");
 
-    public ContactForm() {
+    public ZBS_Form() {
         addClassName("contact-form");
 
         add(zona_basica_salud,
