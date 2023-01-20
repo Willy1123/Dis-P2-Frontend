@@ -13,6 +13,11 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Route(value = "ZbsView")
 @PageTitle("Tab 1 | Zonas Básicas Salud")
 public class ZbsView extends VerticalLayout {
@@ -27,6 +32,12 @@ public class ZbsView extends VerticalLayout {
         addClassName("zbs-view");
         GridConfig();
         FormConfig();
+        try {
+            grid.setItems(servicio.leeZBS());
+        } catch (Exception ex) {
+            System.err.println("Error al cargar la tabla ZBS");
+            System.err.println(ex.getMessage());
+        }
 
         add(getToolbar(), getResultado());
     }
@@ -38,15 +49,29 @@ public class ZbsView extends VerticalLayout {
     }
 
     private HorizontalLayout getToolbar() {
-        filtro.setPlaceholder("Filter by name...");
+        filtro.setPlaceholder("Filtro por Cod_Geo...");
         filtro.setClearButtonVisible(true);
         filtro.setValueChangeMode(ValueChangeMode.LAZY);
+
+        filtro.addValueChangeListener(event -> {
+           String valorCodGeom = event.getValue();
+            List<ZonaBasicaSalud> filtroCodigo = null;
+            try {
+                filtroCodigo = servicio.leeZBS().stream()
+                        .filter(item -> item.getCodigo_geometria().contains(valorCodGeom))
+                        .collect(Collectors.toList());
+            } catch (URISyntaxException | IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            grid.setItems(filtroCodigo);
+        });
 
         Button botonZBS_Actualizar = new Button("Actualizar",
                 e -> {
                     try {
                         grid.setItems(servicio.leeZBS());
                         add(getResultado());
+                        filtro.setValue("");
                     } catch (Exception ex) {
                         System.err.println("Error al pulsar actualizar");
                         System.err.println(ex.getMessage());

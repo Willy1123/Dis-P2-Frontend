@@ -9,11 +9,12 @@ import java.net.http.HttpResponse;
 
 public class API {
 
-    private static final String urlPrefixTab1 = "http://localhost:8081/ZonasBasicasSalud/";
-    private static final String urlPrefixTab2 = "http://localhost:8081/ZonasBasicasSaludMayores60/";
+    private static final String urlPrefixTab1 = "http://localhost:8081/ZonasBasicasSalud/%s";
+    private static final String urlPrefixTab2 = "http://localhost:8081/ZonasBasicasSaludMayores60/%S";
 
+    // TAB 1
     public String getZBS() throws URISyntaxException, IOException, InterruptedException {
-        String fullUrl = String.format(urlPrefixTab1);
+        String fullUrl = String.format(urlPrefixTab1,"");
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(fullUrl))
                 .GET()
@@ -26,8 +27,9 @@ public class API {
         return response.body();
     }
 
+    // TAB 2
     public String getZBS_Mayores() throws URISyntaxException, IOException, InterruptedException {
-        String fullUrl = String.format(urlPrefixTab2);
+        String fullUrl = String.format(urlPrefixTab2, "");
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(fullUrl))
                 .GET()

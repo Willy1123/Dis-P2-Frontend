@@ -1,6 +1,5 @@
 package com.dis.javalovers.gestionZonasBasicasSalud.view;
 
-import com.dis.javalovers.gestionZonasBasicasSalud.forms.ZBS_Form;
 import com.dis.javalovers.gestionZonasBasicasSalud.forms.ZBS_Mayores60_Form;
 import com.dis.javalovers.gestionZonasBasicasSalud.model.ZonaBasicaSalud_60;
 import com.dis.javalovers.gestionZonasBasicasSalud.service.ZBS_Mayores60_Service;
@@ -13,6 +12,11 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Route(value = "ZbsMayoresView")
 @PageTitle("Tab 2 | Zonas Básicas Salud Mayores 60")
@@ -29,6 +33,12 @@ public class ZbsMayoresView extends VerticalLayout {
         addClassName("zbs-view");
         gridMayoresConfig();
         formMayoresConfig();
+        try {
+            gridMayores.setItems(servicio.leeZBS_Mayores60());
+        } catch (Exception ex) {
+            System.err.println("Error al cargar la tabla ZBS Mayores");
+            System.err.println(ex.getMessage());
+        }
 
         add(getToolbar(), getResultado());
     }
@@ -40,15 +50,29 @@ public class ZbsMayoresView extends VerticalLayout {
     }
 
     private HorizontalLayout getToolbar() {
-        filtro.setPlaceholder("Filter by name...");
+        filtro.setPlaceholder("Filtro por Cod_Geo...");
         filtro.setClearButtonVisible(true);
         filtro.setValueChangeMode(ValueChangeMode.LAZY);
+
+        filtro.addValueChangeListener(event -> {
+            String valorCodGeomMayores = event.getValue();
+            List<ZonaBasicaSalud_60> filtroCodigoMayores = null;
+            try {
+                filtroCodigoMayores = servicio.leeZBS_Mayores60().stream()
+                        .filter(item -> item.getCodigo_geometria().contains(valorCodGeomMayores))
+                        .collect(Collectors.toList());
+            } catch (URISyntaxException | IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            gridMayores.setItems(filtroCodigoMayores);
+        });
 
         Button botonZBS_Mayores_Actualizar = new Button("Actualizar",
                 e -> {
                     try {
                         gridMayores.setItems(servicio.leeZBS_Mayores60());
                         add(getResultado());
+                        filtro.setValue("");
                     } catch (Exception ex) {
                         System.err.println("Error al pulsar actualizar");
                         System.err.println(ex.getMessage());

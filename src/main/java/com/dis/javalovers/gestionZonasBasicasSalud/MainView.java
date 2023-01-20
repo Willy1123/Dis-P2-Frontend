@@ -33,8 +33,8 @@ public class MainView extends Div{
     public MainView(@Autowired ZBS_Service service, ZBS_Mayores60_Service service_mayores) {
 
 
-        zbs = new Tab("Centros Básicos de Salud");
-        zbsMayores = new Tab("CBS Mayores");
+        zbs = new Tab("Zonas Básicss de Salud");
+        zbsMayores = new Tab("ZBS Mayores de 60");
 
         Tabs tabs = new Tabs(zbs, zbsMayores);
         tabs.addSelectedChangeListener(event ->
