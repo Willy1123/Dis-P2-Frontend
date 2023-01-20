@@ -1,9 +1,7 @@
 package com.dis.javalovers.gestionZonasBasicasSalud.model;
 
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
 
 /**
  * Clase para modelar los datos recibidos del JSON ZonasBasicasSalud
