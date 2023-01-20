@@ -1,9 +1,7 @@
 package com.dis.javalovers.gestionZonasBasicasSalud.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
 
+import lombok.*;
 
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter @EqualsAndHashCode @ToString
 public class ZonaBasicaSalud_60 {

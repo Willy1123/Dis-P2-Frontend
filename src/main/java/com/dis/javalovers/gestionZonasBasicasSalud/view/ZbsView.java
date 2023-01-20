@@ -15,6 +15,8 @@ import com.vaadin.flow.router.Route;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,7 +73,8 @@ public class ZbsView extends VerticalLayout {
                     try {
                         grid.setItems(servicio.leeZBS());
                         add(getResultado());
-                        filtro.setValue("");
+                        filtro.clear();
+                        limpiarForm();
                     } catch (Exception ex) {
                         System.err.println("Error al pulsar actualizar");
                         System.err.println(ex.getMessage());
@@ -102,14 +105,34 @@ public class ZbsView extends VerticalLayout {
         grid.addColumn(ZonaBasicaSalud::getTasa_incidencia_acumulada_total).setHeader("Tasa incidencia acumulada total").setSortable(true);
         grid.addColumn(ZonaBasicaSalud::getCasos_confirmados_totales).setHeader("Casos confirmados totales").setSortable(true);
         grid.addColumn(ZonaBasicaSalud::getCasos_confirmados_ultimos_14dias).setHeader("Casos confirmados ultimos 14 dias").setSortable(true);
-        grid.addColumn(ZonaBasicaSalud::getFecha_informe).setHeader("Fecha informe").setSortable(true);
+        grid.addColumn(ZonaBasicaSalud::getFecha_informe) .setHeader("Fecha informe").setSortable(true);
         grid.setWidth("800px");
         grid.setHeight("600px");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
+
+        grid.addItemDoubleClickListener(event -> {
+            ZonaBasicaSalud zbs_Seleccionado = event.getItem();
+            form.getZona_basica_salud().setValue(zbs_Seleccionado.getZona_basica_salud());
+            form.getTasa_incidencia_acumulada_ultimos_14dias().setValue(String.valueOf(zbs_Seleccionado.getTasa_incidencia_acumulada_ultimos_14dias()));
+            form.getTasa_incidencia_acumulada_total().setValue(String.valueOf(zbs_Seleccionado.getTasa_incidencia_acumulada_total()));
+            form.getCasos_confirmados_totales().setValue(String.valueOf(zbs_Seleccionado.getCasos_confirmados_totales()));
+            form.getCasos_confirmados_ultimos_14dias().setValue(String.valueOf(zbs_Seleccionado.getCasos_confirmados_ultimos_14dias()));
+            LocalDateTime date = LocalDateTime.parse(zbs_Seleccionado.getFecha_informe(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            form.getFecha_informe().setValue(date);
+        });
     }
 
     private void FormConfig() {
         form.setWidth("20em");
+    }
+
+    private void limpiarForm() {
+        form.getZona_basica_salud().clear();
+        form.getTasa_incidencia_acumulada_ultimos_14dias().clear();
+        form.getTasa_incidencia_acumulada_total().clear();
+        form.getCasos_confirmados_totales().clear();
+        form.getCasos_confirmados_ultimos_14dias().clear();
+        form.getFecha_informe().clear();
     }
 
 }

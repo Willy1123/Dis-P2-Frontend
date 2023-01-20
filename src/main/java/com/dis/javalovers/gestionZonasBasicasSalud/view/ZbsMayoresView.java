@@ -15,6 +15,8 @@ import com.vaadin.flow.router.Route;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,7 +74,8 @@ public class ZbsMayoresView extends VerticalLayout {
                     try {
                         gridMayores.setItems(servicio.leeZBS_Mayores60());
                         add(getResultado());
-                        filtro.setValue("");
+                        filtro.clear();
+                        limpiarFormMayores();
                     } catch (Exception ex) {
                         System.err.println("Error al pulsar actualizar");
                         System.err.println(ex.getMessage());
@@ -94,10 +97,26 @@ public class ZbsMayoresView extends VerticalLayout {
         gridMayores.setWidth("800px");
         gridMayores.setHeight("600px");
         gridMayores.getColumns().forEach(column -> column.setAutoWidth(true));
+
+        gridMayores.addItemDoubleClickListener(event -> {
+            ZonaBasicaSalud_60 zbsMayores_Seleccionado = event.getItem();
+            formMayores.getZona_basica_salud().setValue(zbsMayores_Seleccionado.getZona_basica_salud());
+            formMayores.getTasa_incidencia_acumulada_P60mas_ultimos_14dias().setValue(String.valueOf(zbsMayores_Seleccionado.getTasa_incidencia_acumulada_P60mas_ultimos_14dias()));
+            formMayores.getCasos_confirmados_P60mas_ultimos_14dias().setValue(String.valueOf(zbsMayores_Seleccionado.getCasos_confirmados_P60mas_ultimos_14dias()));
+            LocalDateTime date = LocalDateTime.parse(zbsMayores_Seleccionado.getFecha_informe(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            formMayores.getFecha_informe().setValue(date);
+        });
     }
 
     private void formMayoresConfig() {
         formMayores.setWidth("20em");
+    }
+
+    private void limpiarFormMayores() {
+        formMayores.getZona_basica_salud().clear();
+        formMayores.getTasa_incidencia_acumulada_P60mas_ultimos_14dias().clear();
+        formMayores.getCasos_confirmados_P60mas_ultimos_14dias().clear();
+        formMayores.getFecha_informe().clear();
     }
 
 }

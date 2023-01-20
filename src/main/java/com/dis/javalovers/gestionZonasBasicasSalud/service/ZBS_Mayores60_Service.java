@@ -1,7 +1,6 @@
 package com.dis.javalovers.gestionZonasBasicasSalud.service;
 
 import com.dis.javalovers.gestionZonasBasicasSalud.backRequest.API;
-import com.dis.javalovers.gestionZonasBasicasSalud.model.ZonaBasicaSalud;
 import com.dis.javalovers.gestionZonasBasicasSalud.model.ZonaBasicaSalud_60;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
