@@ -37,42 +37,27 @@ public class API {
     }
 
     public void postZBS(boolean nuevoElemento, int posicion, ZonaBasicaSalud zbs) throws IOException, InterruptedException {
-        URL url = new URL("http://localhost:8081/ZonaBasicaSalud");
 
-        // Abrir una conexión a la URL
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        String urlFull = urlPrefix + "ZonasBasicasSaludMayores";
+        var values = new HashMap<String, String>() {{
+            put("nuevoElemento", String.valueOf(nuevoElemento));
+            put("posicion", String.valueOf(posicion));
+            put ("getDatosZBS", String.valueOf(zbs));
+        }};
 
-        // Establecer el método de la petición como POST
-        con.setRequestMethod("POST");
+        var objectMapper = new ObjectMapper();
+        String requestBody = objectMapper
+                .writeValueAsString(values);
 
-        // Establecer la cabeza para enviar un JSON
-        con.setRequestProperty("Content-Type", "application/json; utf-8");
-        con.setRequestProperty("Accept", "application/json");
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(urlFull))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
 
-        // Habilitar el envío de datos
-        con.setDoOutput(true);
-
-        // Crear un objeto JSON con los datos a enviar
-        ZonaBasicaSalud zbSalud = new ZonaBasicaSalud();
-
-        JsonObject json = new JsonObject();
-        json.addProperty("nuevoCampo", nuevoElemento);
-        json.addProperty("indice", posicion);
-        json.add("getDAtosZBS", new Gson().toJsonTree(zbSalud));
-
-        // Escribir los datos en la conexión
-        try(OutputStream os = con.getOutputStream()) {
-            byte[] input = json.toString().getBytes(StandardCharsets.UTF_8);
-            os.write(input, 0, input.length);
-        }
-
-        // Leer la respuesta del servidor
-        int status = con.getResponseCode();
-        if (status != HttpURLConnection.HTTP_OK) {
-            // Manejar el error
-            System.err.println("Error al mandar el post");
-            System.out.println(status);
-        }
+        HttpResponse<String> response = HttpClient
+                .newBuilder()
+                .build()
+                .send(request, HttpResponse.BodyHandlers.ofString());
 
     }
 

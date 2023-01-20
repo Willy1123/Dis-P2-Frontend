@@ -2,6 +2,7 @@ package com.dis.javalovers.gestionZonasBasicasSalud.forms;
 
 import com.dis.javalovers.gestionZonasBasicasSalud.backRequest.API;
 import com.dis.javalovers.gestionZonasBasicasSalud.model.ZonaBasicaSalud;
+import com.dis.javalovers.gestionZonasBasicasSalud.service.ZBS_Service;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
@@ -27,6 +28,8 @@ public class ZBS_Form extends FormLayout {
     TextField casos_confirmados_ultimos_14dias = new TextField("Casos confirmados (Últimos 14 días)");
     DateTimePicker fecha_informe = new DateTimePicker();
 
+    ZBS_Service servicio;
+
     Button save = new Button("Save",
             e -> {
                 ZonaBasicaSalud zbs = new ZonaBasicaSalud();
@@ -38,9 +41,9 @@ public class ZBS_Form extends FormLayout {
                 zbs.setCasos_confirmados_ultimos_14dias(Integer.parseInt(casos_confirmados_ultimos_14dias.getValue()));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 zbs.setFecha_informe(fecha_informe.getValue().format(formatter));
-                API api = new API();
+
                 try {
-                    api.postZBS(nuevoElemento, posicion, zbs);
+                    servicio.cambiarZBS(nuevoElemento, posicion, zbs);
                 } catch (Exception ex) {
                     System.err.println("Error al guardar los datos");
                     System.err.println(ex.getMessage());
@@ -48,7 +51,7 @@ public class ZBS_Form extends FormLayout {
             });
     Button close = new Button("Cancel");
 
-    public ZBS_Form() {
+    public ZBS_Form(ZBS_Service service) {
         addClassName("contact-form");
         fecha_informe.setLabel("Fecha informe");
         fecha_informe.setStep(Duration.ofMinutes(30));

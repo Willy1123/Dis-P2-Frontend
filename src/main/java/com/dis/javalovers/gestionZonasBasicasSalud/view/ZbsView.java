@@ -25,9 +25,10 @@ import java.util.stream.Collectors;
 public class ZbsView extends VerticalLayout {
     Grid<ZonaBasicaSalud> grid = new Grid<>(ZonaBasicaSalud.class, false);
     TextField filtro = new TextField();
-    ZBS_Form form = new ZBS_Form();
-    HorizontalLayout results = new HorizontalLayout();
     ZBS_Service servicio;
+    ZBS_Form form = new ZBS_Form(servicio);
+    HorizontalLayout results = new HorizontalLayout();
+
     public ZbsView(ZBS_Service service){
         servicio = service;
         removeAll();
