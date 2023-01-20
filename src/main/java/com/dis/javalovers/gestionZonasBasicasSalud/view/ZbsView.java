@@ -112,6 +112,16 @@ public class ZbsView extends VerticalLayout {
 
         grid.addItemDoubleClickListener(event -> {
             ZonaBasicaSalud zbs_Seleccionado = event.getItem();
+            form.setNuevoElemento(false);
+            int posicion;
+            try {
+                List<ZonaBasicaSalud> lista = servicio.leeZBS();
+                posicion = lista.indexOf(zbs_Seleccionado);
+            } catch (URISyntaxException | IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            form.setPosicion(posicion);
+            form.setCodigo_geometria(zbs_Seleccionado.getCodigo_geometria());
             form.getZona_basica_salud().setValue(zbs_Seleccionado.getZona_basica_salud());
             form.getTasa_incidencia_acumulada_ultimos_14dias().setValue(String.valueOf(zbs_Seleccionado.getTasa_incidencia_acumulada_ultimos_14dias()));
             form.getTasa_incidencia_acumulada_total().setValue(String.valueOf(zbs_Seleccionado.getTasa_incidencia_acumulada_total()));
@@ -127,6 +137,7 @@ public class ZbsView extends VerticalLayout {
     }
 
     private void limpiarForm() {
+        form.setCodigo_geometria("");
         form.getZona_basica_salud().clear();
         form.getTasa_incidencia_acumulada_ultimos_14dias().clear();
         form.getTasa_incidencia_acumulada_total().clear();
