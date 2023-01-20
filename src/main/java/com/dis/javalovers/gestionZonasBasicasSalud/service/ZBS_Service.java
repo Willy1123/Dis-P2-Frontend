@@ -22,4 +22,9 @@ public class ZBS_Service {
         List<ZonaBasicaSalud> lista = gson.fromJson(resultsAPI,tipo);
         return lista;
     }
+
+    public void cambiarZBS(boolean nuevoElemento, int pos, ZonaBasicaSalud zbs) throws IOException, InterruptedException {
+        API api = new API();
+        api.postZBS(nuevoElemento, pos, zbs);
+    }
 }
